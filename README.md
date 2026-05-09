@@ -1,7 +1,7 @@
 <<<<<<< HEAD
 # MSU Akan Vendor Management Portal
 
-**Team Huamza** — Vendor-side component of the MSU Akan Student Digital Wallet Security Framework.
+Vendor-side component of the MSU Akan Student Digital Wallet Security Framework.
 
 A high-speed, security-hardened portal for authorized campus vendors to receive student payments, verify them in real time, view their own transaction ledger, and generate daily settlement reports.
 
@@ -107,9 +107,5 @@ Covers (per the brief's Phase 4):
 - `.env` is gitignored. Never commit it.
 
 
-MASTER_KEY=10bc065e5c6924cb3dad5b72b2490b5e92c2463644817a432eea632f0e37c278
-SESSION_SECRET=a447434c38908a306d32cc71fb14061b78ee9e1d71c1ff2a4174fb37f7ac2b1b
+
 =======
-# MSU-Vendor-Management-Sys-Beta-Test-
-Test project: MSU Akan Student Digital Wallet — Vendor Management Portal. Built as a personal learning exercise to practice Node.js, Express, PostgreSQL, MFA, and secure session handling. Not intended for production.
->>>>>>> d8123480aa152641c48ca6228ce482b61f8b933f
