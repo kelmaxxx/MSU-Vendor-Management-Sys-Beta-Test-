@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: msu_wallet_db
+    environment:
+      POSTGRES_DB: msu_wallet
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me_super}
+    ports:
+      - "5432:5432"
+    volumes:
+      - msu_wallet_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d msu_wallet"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  msu_wallet_data:

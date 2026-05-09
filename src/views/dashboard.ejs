@@ -1,0 +1,58 @@
+<%- include('partials/header') %>
+<div class="app">
+  <%- include('partials/sidebar', { vendor, csrfToken, active }) %>
+  <main class="content">
+    <header class="page-head">
+      <h1>Dashboard</h1>
+      <p class="muted">Real-time payment desk for <%= vendor.name %> (<%= vendor.code %>).</p>
+    </header>
+
+    <section id="payment-status" class="status-card status-idle" aria-live="polite">
+      <div class="status-icon" aria-hidden="true">•</div>
+      <div class="status-text">
+        <strong id="status-headline">Awaiting payment</strong>
+        <span id="status-detail" class="muted small">Last payment will appear here in real time.</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Charge a student</h2>
+      <form id="charge-form" autocomplete="off">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <div class="row">
+          <label>Student code
+            <input type="text" name="studentCode" pattern="[A-Za-z0-9-]{3,32}" required placeholder="S-2026-0001" />
+          </label>
+          <label>Amount (GHS)
+            <input type="number" name="amount" step="0.01" min="0.01" max="1000000" required placeholder="0.00" />
+          </label>
+          <button class="primary" type="submit">Charge</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Recent transactions</h2>
+      <% if (recent.length === 0) { %>
+        <p class="muted">No transactions yet.</p>
+      <% } else { %>
+        <table class="data">
+          <thead><tr><th>When</th><th>Amount</th><th>Status</th><th>Hash</th></tr></thead>
+          <tbody>
+            <% recent.forEach(function(t) { %>
+              <tr>
+                <td><%= t.created_at.toISOString() %></td>
+                <td>GHS <%= Number(t.amount).toFixed(2) %></td>
+                <td class="status status-<%= t.status %>"><%= t.status %></td>
+                <td class="mono small"><%= t.txn_hash.slice(0,16) %>…</td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      <% } %>
+    </section>
+  </main>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/static/js/dashboard.js"></script>
+<%- include('partials/footer') %>

@@ -1,0 +1,23 @@
+<%- include('partials/header') %>
+<main class="auth-shell">
+  <section class="auth-card">
+    <div class="brand-mark big">MSU</div>
+    <h1>Vendor Portal</h1>
+    <p class="muted">Akan Student Digital Wallet — Team Huamza</p>
+
+    <% if (error) { %><div class="alert alert-error"><%= error %></div><% } %>
+
+    <form method="post" action="/login" autocomplete="on">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <label>Email
+        <input type="email" name="email" required autocomplete="username" />
+      </label>
+      <label>Password
+        <input type="password" name="password" required autocomplete="current-password" />
+      </label>
+      <button class="primary" type="submit">Sign in</button>
+    </form>
+    <p class="muted small">Protected by TLS, AES-256, RBAC, and TOTP MFA.</p>
+  </section>
+</main>
+<%- include('partials/footer') %>

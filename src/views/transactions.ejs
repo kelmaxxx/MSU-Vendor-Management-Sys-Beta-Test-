@@ -1,0 +1,64 @@
+<%- include('partials/header') %>
+<div class="app">
+  <%- include('partials/sidebar', { vendor, csrfToken, active }) %>
+  <main class="content">
+    <header class="page-head">
+      <h1>Transaction History</h1>
+      <p class="muted">All payments scoped to <%= vendor.name %> by Row-Level Security.</p>
+    </header>
+
+    <section class="card">
+      <form method="get" action="/transactions" class="filter-row">
+        <label>From
+          <input type="date" name="from" value="<%= filters.from %>" />
+        </label>
+        <label>To
+          <input type="date" name="to" value="<%= filters.to %>" />
+        </label>
+        <label>Status
+          <select name="status">
+            <option value="">All</option>
+            <option value="success" <%= filters.status === 'success' ? 'selected' : '' %>>Success</option>
+            <option value="failed"  <%= filters.status === 'failed'  ? 'selected' : '' %>>Failed</option>
+            <option value="pending" <%= filters.status === 'pending' ? 'selected' : '' %>>Pending</option>
+          </select>
+        </label>
+        <button class="primary" type="submit">Apply</button>
+        <a class="link"
+           href="/transactions?format=csv&from=<%= encodeURIComponent(filters.from) %>&to=<%= encodeURIComponent(filters.to) %>&status=<%= encodeURIComponent(filters.status) %>">
+          Export CSV
+        </a>
+      </form>
+    </section>
+
+    <section class="card">
+      <% if (txns.length === 0) { %>
+        <p class="muted">No transactions match.</p>
+      <% } else { %>
+        <table class="data">
+          <thead><tr><th>When</th><th>Hash</th><th>Amount</th><th>Status</th></tr></thead>
+          <tbody>
+            <% txns.forEach(function(t) { %>
+              <tr>
+                <td><%= t.created_at.toISOString() %></td>
+                <td class="mono small"><%= t.txn_hash %></td>
+                <td>GHS <%= Number(t.amount).toFixed(2) %></td>
+                <td class="status status-<%= t.status %>"><%= t.status %></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+        <nav class="pager">
+          <% if (page > 1) { %>
+            <a href="?page=<%= page - 1 %>&from=<%= filters.from %>&to=<%= filters.to %>&status=<%= filters.status %>">Prev</a>
+          <% } %>
+          <span>Page <%= page %></span>
+          <% if (txns.length === 50) { %>
+            <a href="?page=<%= page + 1 %>&from=<%= filters.from %>&to=<%= filters.to %>&status=<%= filters.status %>">Next</a>
+          <% } %>
+        </nav>
+      <% } %>
+    </section>
+  </main>
+</div>
+<%- include('partials/footer') %>

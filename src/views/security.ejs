@@ -1,0 +1,49 @@
+<%- include('partials/header') %>
+<div class="app">
+  <%- include('partials/sidebar', { vendor, csrfToken, active }) %>
+  <main class="content">
+    <header class="page-head">
+      <h1>Security</h1>
+      <p class="muted">Account hardening and recent audit activity. MFA required.</p>
+    </header>
+
+    <% if (notice) { %><div class="alert alert-ok"><%= notice %></div><% } %>
+    <% if (error) { %><div class="alert alert-error"><%= error %></div><% } %>
+
+    <section class="card">
+      <h2>Change password</h2>
+      <form method="post" action="/security/password" autocomplete="off">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <label>Current password
+          <input type="password" name="current" required autocomplete="current-password" />
+        </label>
+        <label>New password (min 10 chars)
+          <input type="password" name="next" minlength="10" required autocomplete="new-password" />
+        </label>
+        <button class="primary" type="submit">Update</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Recent audit log</h2>
+      <% if (audit.length === 0) { %>
+        <p class="muted">No audit entries yet.</p>
+      <% } else { %>
+        <table class="data">
+          <thead><tr><th>When</th><th>Action</th><th>Result</th><th>IP</th></tr></thead>
+          <tbody>
+            <% audit.forEach(function(a) { %>
+              <tr>
+                <td><%= a.ts.toISOString() %></td>
+                <td class="mono small"><%= a.action %></td>
+                <td class="status status-<%= a.success ? 'success' : 'failed' %>"><%= a.success ? 'ok' : 'failed' %></td>
+                <td><%= a.ip || '-' %></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      <% } %>
+    </section>
+  </main>
+</div>
+<%- include('partials/footer') %>

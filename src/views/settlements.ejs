@@ -1,0 +1,52 @@
+<%- include('partials/header') %>
+<div class="app">
+  <%- include('partials/sidebar', { vendor, csrfToken, active }) %>
+  <main class="content">
+    <header class="page-head">
+      <h1>Settlement Reports</h1>
+      <p class="muted">Generate a daily settlement summary. MFA is required for this action.</p>
+    </header>
+
+    <% if (locals.error) { %><div class="alert alert-error"><%= error %></div><% } %>
+
+    <section class="card">
+      <form method="post" action="/settlements/generate" class="filter-row">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <label>Date
+          <input type="date" name="date" value="<%= date %>" required />
+        </label>
+        <button class="primary" type="submit">Generate</button>
+        <button class="link" type="submit" name="format" value="csv">Download CSV</button>
+      </form>
+    </section>
+
+    <% if (summary) { %>
+      <section class="card">
+        <h2>Settlement for <%= summary.date %></h2>
+        <div class="kpis">
+          <div><strong>GHS <%= summary.total %></strong><span>Total received</span></div>
+          <div><strong><%= summary.successCount %></strong><span>Successful</span></div>
+          <div><strong><%= summary.failedCount %></strong><span>Failed</span></div>
+        </div>
+        <% if (summary.items.length > 0) { %>
+          <table class="data">
+            <thead><tr><th>When</th><th>Hash</th><th>Amount</th><th>Status</th></tr></thead>
+            <tbody>
+              <% summary.items.forEach(function(t) { %>
+                <tr>
+                  <td><%= t.created_at.toISOString() %></td>
+                  <td class="mono small"><%= t.txn_hash %></td>
+                  <td>GHS <%= t.amount %></td>
+                  <td class="status status-<%= t.status %>"><%= t.status %></td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        <% } else { %>
+          <p class="muted">No transactions on this date.</p>
+        <% } %>
+      </section>
+    <% } %>
+  </main>
+</div>
+<%- include('partials/footer') %>

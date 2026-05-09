@@ -1,0 +1,27 @@
+<%- include('partials/header') %>
+<main class="auth-shell">
+  <section class="auth-card wide">
+    <h1>Enable Multi-Factor Authentication</h1>
+    <p class="muted">Scan the QR code with Google Authenticator (or any TOTP app), then enter the 6-digit code below.</p>
+
+    <% if (error) { %><div class="alert alert-error"><%= error %></div><% } %>
+
+    <div class="mfa-grid">
+      <img src="<%= qr %>" alt="MFA QR code" class="qr" />
+      <div>
+        <p class="muted small">Manual entry secret:</p>
+        <code class="secret"><%= secret %></code>
+      </div>
+    </div>
+
+    <form method="post" action="/mfa/setup">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <label>6-digit code
+        <input type="text" name="token" inputmode="numeric" pattern="[0-9]{6}"
+               minlength="6" maxlength="6" required autofocus />
+      </label>
+      <button class="primary" type="submit">Verify and enable</button>
+    </form>
+  </section>
+</main>
+<%- include('partials/footer') %>

@@ -1,0 +1,21 @@
+<aside class="sidebar">
+  <div class="brand">
+    <div class="brand-mark">MSU</div>
+    <div class="brand-text">
+      <strong>Akan Wallet</strong>
+      <small>Vendor Portal</small>
+    </div>
+  </div>
+  <nav>
+    <a href="/dashboard" class="<%= active === 'dashboard' ? 'active' : '' %>">Dashboard</a>
+    <a href="/transactions" class="<%= active === 'transactions' ? 'active' : '' %>">Transaction History</a>
+    <a href="/settlements" class="<%= active === 'settlements' ? 'active' : '' %>">Settlement Reports</a>
+    <a href="/security" class="<%= active === 'security' ? 'active' : '' %>">Security</a>
+  </nav>
+  <form method="post" action="/logout" class="logout-form">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <div class="vendor-line"><%= vendor.name %></div>
+    <small><%= vendor.email %></small>
+    <button type="submit" class="link">Sign out</button>
+  </form>
+</aside>

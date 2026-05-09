@@ -1,0 +1,155 @@
+/* MSU Vendor Portal — high-contrast, minimalist. */
+
+:root {
+  --ink: #0a0e0a;
+  --ink-2: #2c322c;
+  --paper: #ffffff;
+  --paper-2: #f6f7f6;
+  --line: #d8dcd8;
+  --accent: #7B1E2D;       /* MSU maroon */
+  --accent-ink: #ffffff;
+  --accent-soft: #f4e6e8;  /* light maroon tint for backgrounds */
+  --ok: #137333;
+  --bad: #c5221f;
+  --warn: #b06000;
+  --idle: #5f6368;
+  --radius: 6px;
+  --shadow: 0 1px 2px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.04);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+button { font: inherit; cursor: pointer; }
+.muted { color: var(--ink-2); }
+.small { font-size: 0.85rem; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
+/* ---------- Auth shell (login / mfa) ---------- */
+.auth-shell {
+  min-height: 100vh; display: grid; place-items: center;
+  background: linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%);
+  padding: 2rem;
+}
+.auth-card {
+  background: var(--paper); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 2rem; max-width: 420px; width: 100%;
+  box-shadow: var(--shadow);
+}
+.auth-card.wide { max-width: 560px; }
+.auth-card h1 { margin: 0.25rem 0 0.5rem; font-size: 1.5rem; }
+.auth-card form { display: grid; gap: 1rem; margin-top: 1rem; }
+.brand-mark {
+  display: inline-grid; place-items: center;
+  width: 40px; height: 40px; border-radius: 8px;
+  background: var(--accent); color: var(--accent-ink); font-weight: 700;
+}
+.brand-mark.big { width: 56px; height: 56px; font-size: 1.25rem; margin-bottom: 0.75rem; }
+
+/* ---------- App shell ---------- */
+.app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+.sidebar {
+  background: var(--paper-2); border-right: 1px solid var(--line);
+  padding: 1.5rem 1rem; display: flex; flex-direction: column; gap: 1rem;
+  position: sticky; top: 0; height: 100vh;
+}
+.sidebar .brand { display: flex; gap: 0.75rem; align-items: center; }
+.sidebar .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+.sidebar nav { display: flex; flex-direction: column; gap: 0.25rem; margin-top: 1rem; }
+.sidebar nav a {
+  color: var(--ink); padding: 0.6rem 0.75rem; border-radius: var(--radius);
+}
+.sidebar nav a:hover { background: var(--paper); }
+.sidebar nav a.active { background: var(--accent); color: var(--accent-ink); }
+.sidebar .logout-form {
+  margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: 0.25rem;
+}
+.vendor-line { font-weight: 600; }
+.content { padding: 2rem; max-width: 1200px; }
+.page-head { margin-bottom: 1.25rem; }
+.page-head h1 { margin: 0 0 0.25rem; font-size: 1.5rem; }
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--paper); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.25rem;
+  box-shadow: var(--shadow);
+}
+.card h2 { margin: 0 0 0.75rem; font-size: 1.1rem; }
+
+/* ---------- Forms ---------- */
+label { display: flex; flex-direction: column; gap: 0.25rem; font-weight: 600; }
+input, select {
+  font: inherit; padding: 0.6rem 0.75rem;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--paper); color: var(--ink);
+}
+input:focus, select:focus {
+  outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent);
+}
+.row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 1rem; align-items: end; }
+.filter-row {
+  display: flex; gap: 1rem; align-items: end; flex-wrap: wrap;
+}
+button.primary {
+  background: var(--accent); color: var(--accent-ink);
+  border: 1px solid var(--accent); padding: 0.6rem 1.1rem;
+  border-radius: var(--radius); font-weight: 600;
+}
+button.primary:hover { filter: brightness(0.95); }
+button.link, a.link {
+  background: transparent; color: var(--accent); border: none; padding: 0.4rem 0.5rem;
+  font-weight: 600;
+}
+
+/* ---------- Status card ---------- */
+.status-card {
+  display: grid; grid-template-columns: 96px 1fr; gap: 1.5rem; align-items: center;
+  padding: 2rem; border-radius: var(--radius);
+  border: 2px solid var(--line); background: var(--paper);
+  box-shadow: var(--shadow); margin-bottom: 1.25rem;
+  transition: background 200ms, border-color 200ms;
+}
+.status-icon {
+  width: 96px; height: 96px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 3rem; font-weight: 800;
+  background: var(--paper-2); color: var(--idle);
+}
+.status-text strong { font-size: 1.5rem; display: block; margin-bottom: 0.25rem; }
+.status-success { border-color: var(--ok); background: #ecf6ee; }
+.status-success .status-icon { background: var(--ok); color: #fff; }
+.status-failed  { border-color: var(--bad); background: #fdecec; }
+.status-failed  .status-icon { background: var(--bad); color: #fff; }
+.status-idle { border-color: var(--line); }
+
+/* ---------- Tables ---------- */
+table.data { width: 100%; border-collapse: collapse; }
+table.data th, table.data td {
+  text-align: left; padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--line);
+}
+table.data th { background: var(--paper-2); font-weight: 600; }
+.status { font-weight: 600; text-transform: capitalize; }
+.status-success { color: var(--ok); }
+.status-failed  { color: var(--bad); }
+.status-pending { color: var(--warn); }
+
+/* ---------- Misc ---------- */
+.alert { padding: 0.75rem 1rem; border-radius: var(--radius); margin-bottom: 1rem; }
+.alert-error { background: #fdecec; color: var(--bad); border: 1px solid #f4c7c3; }
+.alert-ok    { background: #ecf6ee; color: var(--ok);  border: 1px solid #c8e6c9; }
+.kpis {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem;
+}
+.kpis div {
+  padding: 1rem; background: var(--paper-2);
+  border-radius: var(--radius); border: 1px solid var(--line);
+}
+.kpis div strong { font-size: 1.5rem; display: block; }
+.kpis div span { color: var(--ink-2); }
+.pager { display: flex; gap: 1rem; align-items: center; margin-top: 1rem; }
+.mfa-grid { display: grid; grid-template-columns: 220px 1fr; gap: 1rem; align-items: center; margin: 1rem 0; }
+.qr { width: 200px; height: 200px; border: 1px solid var(--line); border-radius: var(--radius); }
+.secret { display: block; padding: 0.5rem; background: var(--paper-2); border-radius: var(--radius); word-break: break-all; }

@@ -1,0 +1,19 @@
+<%- include('partials/header') %>
+<main class="auth-shell">
+  <section class="auth-card">
+    <h1>Verify MFA</h1>
+    <p class="muted">Enter the 6-digit code from your authenticator app.</p>
+
+    <% if (error) { %><div class="alert alert-error"><%= error %></div><% } %>
+
+    <form method="post" action="/mfa/verify">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <label>6-digit code
+        <input type="text" name="token" inputmode="numeric" pattern="[0-9]{6}"
+               minlength="6" maxlength="6" required autofocus />
+      </label>
+      <button class="primary" type="submit">Verify</button>
+    </form>
+  </section>
+</main>
+<%- include('partials/footer') %>
