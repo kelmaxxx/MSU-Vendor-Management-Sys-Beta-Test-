@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # MSU Akan Vendor Management Portal
 
 Vendor-side component of the MSU Akan Student Digital Wallet Security Framework.
@@ -107,5 +106,3 @@ Covers (per the brief's Phase 4):
 - `.env` is gitignored. Never commit it.
 
 
-
-=======
